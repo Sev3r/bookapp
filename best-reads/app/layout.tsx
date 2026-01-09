@@ -60,8 +60,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className={`antialiased ${poppins.className}`}>
-        <Navigation />
         {children}
+        <Navigation />
       </body>
     </html>
   );
