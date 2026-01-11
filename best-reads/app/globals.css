@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+body {
+  padding: 0;
+  background-color: rgb(53, 125, 77);
+}
+
 /* Tailwind v4 Theme Configuration */
 @theme {
   /* Light Mode Colors */

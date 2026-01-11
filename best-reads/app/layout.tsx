@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navigation from "./components/NavigationBottom";
+import Search from "./components/SearchCount";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -60,7 +61,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body className={`antialiased ${poppins.className}`}>
-        {children}
+        <Search />
+        <div className="pb-20">
+          {children}
+        </div>
         <Navigation />
       </body>
     </html>
