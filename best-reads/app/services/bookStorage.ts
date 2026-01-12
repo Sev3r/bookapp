@@ -9,8 +9,6 @@ export class BookStorage {
         return typeof window !== 'undefined';
     }
 
-    // === TO READ BOOKS ===
-
     getToReadBooks(): Book[] {
         if (!this.isBrowser()) return [];
 
@@ -18,7 +16,7 @@ export class BookStorage {
             const stored = localStorage.getItem(this.TOREAD_KEY);
             return stored ? JSON.parse(stored) : [];
         } catch (error) {
-            console.error('Fout bij ophalen to-read boeken:', error);
+            console.error('There has been a problem loading your books:', error);
             return [];
         }
     }
@@ -31,14 +29,14 @@ export class BookStorage {
 
             // Check of boek al bestaat
             if (books.some(b => b.id === book.id)) {
-                console.warn('Boek staat al in de lijst');
+                console.warn('Book is already in list');
                 return;
             }
 
             books.push(book);
             localStorage.setItem(this.TOREAD_KEY, JSON.stringify(books));
         } catch (error) {
-            console.error('Fout bij toevoegen to-read boek:', error);
+            console.error('Error while adding book:', error);
         }
     }
 
@@ -50,7 +48,7 @@ export class BookStorage {
             const filtered = books.filter(b => b.id !== bookId);
             localStorage.setItem(this.TOREAD_KEY, JSON.stringify(filtered));
         } catch (error) {
-            console.error('Fout bij verwijderen to-read boek:', error);
+            console.error('Error while removing book:', error);
         }
     }
 
@@ -63,7 +61,7 @@ export class BookStorage {
             const stored = localStorage.getItem(this.HAVEREAD_KEY);
             return stored ? JSON.parse(stored) : [];
         } catch (error) {
-            console.error('Fout bij ophalen have-read boeken:', error);
+            console.error('There has been a problem loading your books:', error);
             return [];
         }
     }
@@ -76,14 +74,14 @@ export class BookStorage {
 
             // Check of boek al bestaat
             if (books.some(b => b.id === book.id)) {
-                console.warn('Boek staat al in de lijst');
+                console.warn('Book is already in the have-read list');
                 return;
             }
 
             books.push(book);
             localStorage.setItem(this.HAVEREAD_KEY, JSON.stringify(books));
         } catch (error) {
-            console.error('Fout bij toevoegen have-read boek:', error);
+            console.error('Error while adding book:', error);
         }
     }
 
@@ -95,7 +93,7 @@ export class BookStorage {
             const filtered = books.filter(b => b.id !== bookId);
             localStorage.setItem(this.HAVEREAD_KEY, JSON.stringify(filtered));
         } catch (error) {
-            console.error('Fout bij verwijderen have-read boek:', error);
+            console.error('Error while removing have-read book:', error);
         }
     }
 
