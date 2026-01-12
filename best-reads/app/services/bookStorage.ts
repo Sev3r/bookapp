@@ -1,5 +1,3 @@
-// app/services/bookStorage.ts
-
 import { Book } from '@/app/types/book';
 
 export class BookStorage {

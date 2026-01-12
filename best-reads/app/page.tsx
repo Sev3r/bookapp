@@ -94,7 +94,7 @@ export default function HomePage() {
       {/* Recommendations sectie */}
       <div className="rounded-lg shadow-lg p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-2xl font-bold mb-4 text-center">
             {stats.haveRead > 0 ? 'Recommended' : 'Populair books'}
           </h2>
           <button

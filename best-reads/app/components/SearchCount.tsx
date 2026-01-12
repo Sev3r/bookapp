@@ -1,11 +1,10 @@
-// app/components/SearchCount.tsx
-
 'use client';
 
 import { useState } from 'react';
 import { GoogleBooksAPI } from '@/app/services/googleBooksAPI';
 import { Book } from '@/app/types/book';
 import BookDetailModal from './BookDetailModal';
+import { TotalPagesRead } from './PagesRead';
 
 export default function SearchCount() {
     const [query, setQuery] = useState('');
@@ -48,8 +47,8 @@ export default function SearchCount() {
     return (
         <div className="bg-amber-100 sticky top-0 left-0 right-0">
             {/* Search bar */}
-            <div className="w-full max-w-2xl mx-auto p-4">
-                <form onSubmit={handleSearch} className="flex gap-2 bg-emerald-700 p-4 rounded-lg shadow">
+            <div className="w-full max-w-4xl mx-auto p-4 grid grid-cols-2 gap-4">
+                <form onSubmit={handleSearch} className="flex gap-2 bg-emerald-700 p-4 rounded-lg shadow overflow-hidden">
                     <input
                         type="text"
                         value={query}
@@ -65,7 +64,12 @@ export default function SearchCount() {
                         {loading ? 'Zoeken...' : 'Search'}
                     </button>
                 </form>
+
+                <div className="flex justify-center md:justify-end">
+                    <TotalPagesRead />
+                </div>
             </div>
+
 
             {/* Search results overlay */}
             {showResults && (
