@@ -48,7 +48,7 @@ export default function SearchCount() {
         <div className="bg-amber-100 sticky top-0 left-0 right-0">
             {/* Search bar */}
             <div className="w-full max-w-4xl mx-auto p-4 grid grid-cols-2 gap-4">
-                <form onSubmit={handleSearch} className="flex gap-2 bg-emerald-700 p-4 rounded-lg shadow overflow-hidden">
+                <form onSubmit={handleSearch} className="flex bg-emerald-700 p-4 rounded-lg shadow overflow-hidden">
                     <input
                         type="text"
                         value={query}
@@ -59,9 +59,11 @@ export default function SearchCount() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="px-6 py-3 bg-green-800 text-white rounded-lg hover:bg-green-700 transition disabled:bg-gray-400 font-semibold"
+                        className="px-6 py-3 transition disabled:bg-gray-400 font-semibold"
                     >
-                        {loading ? 'Zoeken...' : 'Search'}
+                        {loading ? 'Searching...' : (
+                            <img src="/search-icon.png" className="h-6 w-6 hover:scale-115" />
+                        )}
                     </button>
                 </form>
 
@@ -163,9 +165,6 @@ export default function SearchCount() {
                     book={selectedBook}
                     isOpen={showModal}
                     onClose={handleCloseModal}
-                    onBookAdded={() => {
-                        // Optioneel: refresh iets of toon notificatie
-                    }}
                 />
             )}
         </div>
