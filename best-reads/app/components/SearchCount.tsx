@@ -48,12 +48,12 @@ export default function SearchCount() {
         <div className="bg-amber-100 sticky top-0 left-0 right-0">
             {/* Search bar */}
             <div className="w-full max-w-4xl h-20 mx-auto p-2 grid grid-cols-2 gap-2">
-                <form onSubmit={handleSearch} className="flex h-12 bg-emerald-700 p-2 rounded-lg shadow overflow-hidden">
+                <form onSubmit={handleSearch} className="flex h-12 w-40 bg-emerald-700 p-2 rounded-lg shadow overflow-hidden">
                     <input
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="My best read... 🔍"
+                        placeholder="My best read...   🔍"
                         className="flex-1 px-4 py-3 border border-gray-300 rounded-lg justify-center"
                     />
                     <button
