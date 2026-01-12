@@ -1,5 +1,3 @@
-// app/components/BookDetailModal.tsx
-
 'use client';
 
 import { Book } from '@/app/types/book';
@@ -23,12 +21,12 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
 
     const handleAddToRead = () => {
         if (storage.isBookInToRead(book.id)) {
-            alert('Dit boek staat al in je To Read lijst!');
+            alert('This book is already in your To Read list!');
             return;
         }
 
         storage.addToReadBook(book);
-        setSuccessMessage('✓ Toegevoegd aan To Read!');
+        setSuccessMessage('✓ Added to To Read!');
         setShowSuccessMessage(true);
 
         setTimeout(() => {
@@ -40,12 +38,12 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
 
     const handleAddHaveRead = () => {
         if (storage.isBookInHaveRead(book.id)) {
-            alert('Dit boek staat al in je Have Read lijst!');
+            alert('This book is already in your Have Read list!');
             return;
         }
 
         storage.addHaveReadBook(book);
-        setSuccessMessage('✓ Toegevoegd aan Have Read!');
+        setSuccessMessage('✓ Added to Have Read!');
         setShowSuccessMessage(true);
 
         setTimeout(() => {
@@ -60,19 +58,19 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
 
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                className="bg-amber-100 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header met close button */}
-                <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
-                    <h2 className="text-xl font-bold text-gray-800">Boek Details</h2>
+                <div className="sticky top-0 bg-amber-100 border-b px-6 py-4 flex justify-between items-center">
+                    <h2 className="text-xl font-bold text-gray-800">Book Details</h2>
                     <button
                         onClick={onClose}
-                        className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                        className="text-gray-800 hover:text-gray-600 text-2xl font-bold"
                     >
                         ×
                     </button>
@@ -91,7 +89,7 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                                 />
                             ) : (
                                 <div className="w-48 h-72 bg-gray-200 rounded-lg flex items-center justify-center">
-                                    <span className="text-gray-400">Geen cover</span>
+                                    <span className="text-gray-400">No cover</span>
                                 </div>
                             )}
                         </div>
@@ -103,7 +101,7 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                             </h3>
 
                             <p className="text-lg text-gray-600 mb-4">
-                                door {book.authors.join(', ')}
+                                by {book.authors.join(', ')}
                             </p>
 
                             {/* Rating */}
@@ -126,17 +124,17 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                             <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
                                 {book.pageCount > 0 && (
                                     <div>
-                                        <span className="font-semibold">Pagina&apos;s:</span> {book.pageCount}
+                                        <span className="font-semibold">Page&apos;s:</span> {book.pageCount}
                                     </div>
                                 )}
                                 {book.publishedDate && (
                                     <div>
-                                        <span className="font-semibold">Gepubliceerd:</span> {book.publishedDate}
+                                        <span className="font-semibold">Published:</span> {book.publishedDate}
                                     </div>
                                 )}
                                 {book.publisher && (
                                     <div>
-                                        <span className="font-semibold">Uitgever:</span> {book.publisher}
+                                        <span className="font-semibold">Publisher:</span> {book.publisher}
                                     </div>
                                 )}
                                 {book.isbn && (
@@ -149,12 +147,12 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                             {/* Categories */}
                             {book.categories.length > 0 && (
                                 <div className="mb-4">
-                                    <span className="font-semibold text-sm">Categorieën:</span>
+                                    <span className="font-semibold text-sm">Categories:</span>
                                     <div className="flex flex-wrap gap-2 mt-2">
                                         {book.categories.map((cat, index) => (
                                             <span
                                                 key={index}
-                                                className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs"
+                                                className="px-3 py-1 bg-emerald-200 text-grey-800 rounded-full text-xs"
                                             >
                                                 {cat}
                                             </span>
@@ -166,7 +164,7 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                             {/* Description */}
                             {book.description && (
                                 <div className="mb-4">
-                                    <h4 className="font-semibold mb-2">Beschrijving</h4>
+                                    <h4 className="font-semibold mb-2">Description</h4>
                                     <p className="text-sm text-gray-700 leading-relaxed">
                                         {book.description.length > 500
                                             ? `${book.description.substring(0, 500)}...`
@@ -185,10 +183,10 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                             disabled={isInToRead}
                             className={`flex-1 py-3 rounded-lg font-semibold transition ${isInToRead
                                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-blue-500 text-white hover:bg-blue-600'
+                                : 'bg-green-800 text-white hover:bg-green-700'
                                 }`}
                         >
-                            {isInToRead ? '✓ Al in To Read' : '+ Toevoegen aan To Read'}
+                            {isInToRead ? '✓ Already in To Read' : '+ Add to To Read'}
                         </button>
 
                         <button
@@ -196,19 +194,12 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                             disabled={isInHaveRead}
                             className={`flex-1 py-3 rounded-lg font-semibold transition ${isInHaveRead
                                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-green-500 text-white hover:bg-green-600'
+                                : 'bg-green-800 text-white hover:bg-green-700'
                                 }`}
                         >
-                            {isInHaveRead ? '✓ Al in Have Read' : '+ Toevoegen aan Have Read'}
+                            {isInHaveRead ? '✓ Already in Have Read' : '+ Add to Have Read'}
                         </button>
                     </div>
-
-                    {/* Success message */}
-                    {showSuccessMessage && (
-                        <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-center font-semibold">
-                            {successMessage}
-                        </div>
-                    )}
                 </div>
             </div>
         </div>

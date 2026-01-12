@@ -28,8 +28,8 @@ export default function HaveReadPage() {
 
     if (loading) return <p>Laden...</p>;
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Have Read</h1>
+        <div className="p-4 min-h-screen bg-emerald-700">
+            <h1 className="text-2xl font-bold mb-4 text-center">Have Read</h1>
 
             {books.length === 0 ? (
                 <p className="text-gray-500">Geen boeken in je lijst</p>

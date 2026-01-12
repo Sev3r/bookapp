@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-body {
-  padding: 0;
-  background-color: rgb(53, 125, 77);
-}
 
 /* Tailwind v4 Theme Configuration */
 @theme {
@@ -27,8 +23,8 @@ body {
 /* Dark Mode Colors */
 @media (prefers-color-scheme: dark) {
   @theme {
-    --color-background: #111827;
-    --color-foreground: #f9fafb;
+    --color-background: #5312577;
+    --color-foreground: #5312577;
     --color-card: #1f2937;
     --color-border: #374151;
   }
@@ -37,23 +33,4 @@ body {
 /* Global Styles */
 body {
   @apply font-sans bg-background text-foreground transition-colors duration-300;
-}
-
-/* Custom Utilities */
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .dark .glass {
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
 }

@@ -62,7 +62,7 @@ export default function RootLayout({
       </head>
       <body className={`antialiased ${poppins.className}`}>
         <Search />
-        <div className="pb-20">
+        <div className="pb-20 bg-emerald-700">
           {children}
         </div>
         <Navigation />

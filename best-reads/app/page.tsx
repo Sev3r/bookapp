@@ -77,54 +77,54 @@ export default function HomePage() {
 
   const handleAddToRead = (book: Book) => {
     if (storage.isBookInToRead(book.id)) {
-      alert('Dit boek staat al in je To Read lijst!');
+      alert('This book is already in your To Read list!');
       return;
     }
 
     storage.addToReadBook(book);
-    alert(`${book.title} toegevoegd aan To Read!`);
+    alert(`${book.title} Add to 'To Read'!`);
 
     // Refresh recommendations (filter toegevoegd boek eruit)
     setRecommendations(prev => prev.filter(b => b.id !== book.id));
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen p-6 bg-emerald-700">
 
       {/* Recommendations sectie */}
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="rounded-lg shadow-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">
-            {stats.haveRead > 0 ? 'Aanbevolen voor jou' : 'Populaire boeken'}
+            {stats.haveRead > 0 ? 'Recommended' : 'Populair books'}
           </h2>
           <button
             onClick={loadRecommendations}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-700 transition"
             disabled={loading}
           >
-            {loading ? 'Laden...' : 'Ververs'}
+            {loading ? 'Loading...' : 'Refresh'}
           </button>
         </div>
 
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            <p className="text-gray-600 mt-4">Aanbevelingen laden...</p>
+            <p className="text-gray-600 mt-4">Loading recommendations...</p>
           </div>
         ) : recommendations.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600 text-lg mb-4">
-              Geen aanbevelingen gevonden
+              No recommendations available
             </p>
             <p className="text-gray-500 text-sm">
-              Voeg wat boeken toe aan je Have Read lijst om gepersonaliseerde aanbevelingen te krijgen!
+              Add some books to your To Read list in order to get recommendations!
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             {recommendations.map(book => (
               <div key={book.id} className="group">
-                <div className="border rounded-lg overflow-hidden shadow hover:shadow-xl transition-all duration-300">
+                <div className="border rounded-lg overflow-hidden shadow hover:shadow-xl transition-all duration-300 bg-amber-100">
                   {book.thumbnail ? (
                     <img
                       src={book.thumbnail}
@@ -133,7 +133,7 @@ export default function HomePage() {
                     />
                   ) : (
                     <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-400">Geen cover</span>
+                      <span className="text-gray-400">No cover</span>
                     </div>
                   )}
 
@@ -159,7 +159,7 @@ export default function HomePage() {
 
                     <button
                       onClick={() => handleAddToRead(book)}
-                      className="w-full mt-2 px-3 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
+                      className="w-full mt-2 px-3 py-2 bg-green-800 text-white text-sm rounded hover:bg-green-700 transition"
                     >
                       + To Read
                     </button>
