@@ -54,7 +54,7 @@ export default function SearchCount() {
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="My best read..."
-                        className="px-4 py-3 border border-gray-300 rounded-lg"
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg justify-center"
                     />
                     <button
                         type="submit"
