@@ -47,8 +47,8 @@ export default function SearchCount() {
     return (
         <div className="bg-amber-100 sticky top-0 left-0 right-0">
             {/* Search bar */}
-            <div className="w-full max-w-4xl mx-auto p-4 grid grid-cols-2 gap-4">
-                <form onSubmit={handleSearch} className="flex bg-emerald-700 p-4 rounded-lg shadow overflow-hidden">
+            <div className="w-full max-w-4xl h-20 mx-auto p-4 grid grid-cols-2 gap-4">
+                <form onSubmit={handleSearch} className="flex h-12 bg-emerald-700 p-2 rounded-lg shadow overflow-hidden">
                     <input
                         type="text"
                         value={query}
@@ -59,7 +59,7 @@ export default function SearchCount() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="px-6 py-3 transition disabled:bg-gray-400 font-semibold"
+                        className="px-5 py-0 transition disabled:bg-gray-400 font-semibold"
                     >
                         {loading ? 'Searching...' : (
                             <img src="/search-icon.png" className="h-6 w-6 hover:scale-115" />

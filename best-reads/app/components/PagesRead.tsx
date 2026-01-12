@@ -31,8 +31,8 @@ export function TotalPagesRead() {
         <div className="text-black px-4 py-2">
             <div className="flex items-center gap-3">
                 <div>
-                    <div className="text-xl opacity-100">Total Pages Read</div>
-                    <div className="text-2xl font-bold">{totalPages.toLocaleString()}</div>
+                    <div className="text-l opacity-100">Total Pages Read:</div>
+                    <div className="text-1xl font-bold">{totalPages.toLocaleString()}</div>
                 </div>
             </div>
         </div>
