@@ -42,7 +42,12 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
             return;
         }
 
-        storage.addHaveReadBook(book);
+        if (storage.isBookInToRead(book.id)) {
+            storage.moveToHaveRead(book.id);
+        } else {
+            storage.addHaveReadBook(book);
+        }
+
         setSuccessMessage('✓ Added to Have Read!');
         setShowSuccessMessage(true);
 
