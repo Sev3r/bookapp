@@ -48,7 +48,7 @@ export default function SearchCount() {
         <div className="bg-amber-100 sticky top-0 left-0 right-0">
             {/* Search bar */}
             <div className="w-full max-w-4xl h-20 mx-auto p-4 grid grid-cols-2 gap-4">
-                <form onSubmit={handleSearch} className="flex h-12 bg-emerald-700 p-2 rounded-lg shadow">
+                <form onSubmit={handleSearch} className="flex w-full h-12 bg-emerald-700 p-2 rounded-lg shadow overflow-hidden">
                     <input
                         type="text"
                         value={query}
