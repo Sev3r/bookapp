@@ -29,6 +29,17 @@ export default function manifest(): MetadataRoute.Manifest {
                 sizes: "180x180",
                 type: "image/png",
             },
+            {
+                src: "/favicon.ico",
+                sizes: "64x64 32x32 24x24 16x16",
+                type: "image/x-icon",
+            },
+            {
+                src: "/haveread.png"
+            },
+            {
+                src: "/toread.png"
+            }
         ],
         categories: ["books", "leisure", "tracking"],
     };
