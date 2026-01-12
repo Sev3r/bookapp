@@ -47,8 +47,8 @@ export default function SearchCount() {
     return (
         <div className="bg-amber-100 sticky top-0 left-0 right-0">
             {/* Search bar */}
-            <div className="w-full max-w-4xl h-20 mx-auto p-4 grid grid-cols-2 gap-4">
-                <form onSubmit={handleSearch} className="flex max-w-50 h-12 bg-emerald-700 p-2 rounded-lg shadow overflow-hidden">
+            <div className="w-full max-w-4xl h-20 mx-auto p-2 grid grid-cols-2 gap-2">
+                <form onSubmit={handleSearch} className="flex h-12 bg-emerald-700 p-2 rounded-lg shadow overflow-hidden">
                     <input
                         type="text"
                         value={query}
@@ -67,7 +67,7 @@ export default function SearchCount() {
                     </button>
                 </form>
 
-                <div className="flex justify-center md:justify-end w-full">
+                <div className="flex justify-center md:justify-end">
                     <TotalPagesRead />
                 </div>
             </div>
