@@ -34,11 +34,20 @@ export default function manifest(): MetadataRoute.Manifest {
                 sizes: "64x64 32x32 24x24 16x16",
                 type: "image/x-icon",
             },
+
+        ],
+
+        screenshots: [
             {
-                src: "/haveread.png"
+                src: "/screenshots/haveread.png",
+                sizes: "50x50",
+                type: "image/png",
             },
+
             {
-                src: "/toread.png"
+                src: "/screenshots/toread.png",
+                sizes: "50x50",
+                type: "image/png",
             }
         ],
         categories: ["books", "leisure", "tracking"],

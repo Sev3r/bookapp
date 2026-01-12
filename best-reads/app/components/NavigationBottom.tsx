@@ -8,7 +8,7 @@ export default function Navigation() {
                 <div className="items-center justify-center h-16 grid grid-cols-3">
 
                     <Link href="/ToRead" className="flex items-center justify-begin">
-                        <img src="/toread.png" alt="To Read" className="h-10 w-auto" />
+                        <img src="/screenshots/toread.png" alt="To Read" className="h-10 w-auto" />
                     </Link>
 
                     <Link href="/" className="flex items-center justify-center">
@@ -17,7 +17,7 @@ export default function Navigation() {
 
 
                     <Link href="/HaveRead" className="flex items-center justify-end">
-                        <img src="/haveread.png" alt="Have Read" className="h-10 w-auto" />
+                        <img src="/screenshots/haveread.png" alt="Have Read" className="h-10 w-auto" />
                     </Link>
 
 
