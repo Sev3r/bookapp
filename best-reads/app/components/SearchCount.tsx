@@ -53,7 +53,7 @@ export default function SearchCount() {
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="My best read..."
+                        placeholder="My best read... 🔍"
                         className="flex-1 px-4 py-3 border border-gray-300 rounded-lg justify-center"
                     />
                     <button
@@ -61,9 +61,7 @@ export default function SearchCount() {
                         disabled={loading}
                         className="px-5 py-0 transition disabled:bg-gray-400 font-semibold"
                     >
-                        {loading ? 'Searching...' : (
-                            <img src="/search-icon.png" className="h-6 w-6 hover:scale-115" />
-                        )}
+                        {loading ? 'Searching...' : " Search "}
                     </button>
                 </form>
 
