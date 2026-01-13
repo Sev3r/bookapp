@@ -45,7 +45,7 @@ export default function SearchCount() {
     };
 
     return (
-        <div className="bg-amber-100 sticky top-0 left-0 right-0 border-t border-gray-700">
+        <div className="bg-amber-100 sticky top-0 left-0 right-0 border-b border-gray-700">
             {/* Search bar */}
             <div className="w-full max-w-4xl h-20 mx-auto p-2 grid grid-cols-2 gap-2 justify-center items-center">
                 <form onSubmit={handleSearch} className="flex h-12 w-50 bg-emerald-700 p-2 rounded-lg shadow overflow-hidden">
