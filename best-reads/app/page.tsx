@@ -65,7 +65,7 @@ export default function HomePage() {
       return !isDuplicate && !alreadyHave;
     });
 
-    setRecommendations(uniqueBooks.slice(0, 20));
+    setRecommendations(uniqueBooks.slice(10, 30));
     setLoading(false);
   };
 
