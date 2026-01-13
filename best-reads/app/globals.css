@@ -20,16 +20,6 @@
   --font-family-sans: Poppins, system-ui, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Dark Mode Colors */
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-background: #5312577;
-    --color-foreground: #5312577;
-    --color-card: #1f2937;
-    --color-border: #374151;
-  }
-}
-
 /* Global Styles */
 body {
   @apply font-sans bg-background text-foreground transition-colors duration-300;
