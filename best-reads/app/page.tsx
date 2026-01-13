@@ -75,7 +75,7 @@ export default function HomePage() {
       return !isDuplicate && !alreadyHave;
     });
 
-    setRecommendations(uniqueBooks.slice(0, 12));
+    setRecommendations(uniqueBooks.slice(0, 30));
     setLoading(false);
   };
 
