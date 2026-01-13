@@ -191,7 +191,7 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                                 : 'bg-green-800 text-white hover:bg-green-700'
                                 }`}
                         >
-                            {isInToRead ? '✓ Already in To Read' : '+ Add to To Read'}
+                            {isInToRead ? '✓ Already in To Read' : '+ To Read'}
                         </button>
 
                         <button
@@ -202,7 +202,7 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
                                 : 'bg-green-800 text-white hover:bg-green-700'
                                 }`}
                         >
-                            {isInHaveRead ? '✓ Already in Have Read' : '+ Add to Have Read'}
+                            {isInHaveRead ? '✓ Already in Have Read' : '+ Have Read'}
                         </button>
                     </div>
                 </div>
