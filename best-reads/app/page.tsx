@@ -60,7 +60,7 @@ export default function HomePage() {
 
     // Filter duplicaten en boeken die je al hebt
     const uniqueBooks = recommendedBooks.filter((book, index, self) => {
-      const isDuplicate = self.findIndex(b => b.id === book.id) !== index;
+      const isDuplicate = self.findIndex(b => b.id === book.id || b.title === book.title) !== index;
       const alreadyHave = storage.isBookInHaveRead(book.id) || storage.isBookInToRead(book.id);
       return !isDuplicate && !alreadyHave;
     });
