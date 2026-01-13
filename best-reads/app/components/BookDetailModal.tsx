@@ -63,11 +63,11 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
 
     return (
         <div
-            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4 margin-bottom-10"
+            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
             onClick={onClose}
         >
             <div
-                className="bg-amber-100 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                className="bg-amber-100 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header met close button */}
