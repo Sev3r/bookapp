@@ -190,7 +190,7 @@ export default function HomePage() {
     // STAP 5: Shuffle voor variatie en limiteer
     const shuffled = uniqueBooks
       .sort(() => Math.random() - 0.5)
-      .slice(0, 24);
+      .slice(0, 12);
 
     setRecommendations(shuffled);
     setLoading(false);
