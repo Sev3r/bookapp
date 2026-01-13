@@ -53,15 +53,16 @@ export class GoogleBooksAPI {
 
     constructor(apiKey: string = '') {
         this.baseURL = 'https://www.googleapis.com/books/v1/volumes';
-        this.apiKey = apiKey; // Optioneel: voeg API key toe voor meer requests
+        this.apiKey = apiKey;
     }
 
     // Zoek boeken op titel, auteur of zoekterm
-    async searchBooks(query: string, maxResults: number = 10): Promise<Book[]> {
+    async searchBooks(query: string, maxResults: number = 10, langRestrict: string = 'en'): Promise<Book[]> {
         try {
             const params = new URLSearchParams({
                 q: query,
                 maxResults: maxResults.toString(),
+                langRestrict: langRestrict
             });
 
             if (this.apiKey) {
