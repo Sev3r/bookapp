@@ -74,7 +74,7 @@ export default function SearchCount() {
             {/* Search results overlay */}
             {showResults && (
                 <div
-                    className="fixed inset-0 bg-black z-40 flex items-start justify-center pt-20 overflow-y-hidden"
+                    className="fixed inset-0 bg-black z-40 flex items-start justify-center pt-20 overflow-y-auto"
                     onClick={handleCloseOverlay}
                 >
                     <div
