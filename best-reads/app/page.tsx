@@ -204,7 +204,7 @@ export default function HomePage() {
       {/* Recommendations sectie */}
       <div className="rounded-lg shadow-lg p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold mb-4 text-center">
+          <h2 className="text-2xl font-bold mb-4 text-center justify-center w-full">
             Recommended
           </h2>
         </div>
@@ -233,7 +233,7 @@ export default function HomePage() {
 
         <button
           onClick={loadRecommendations}
-          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-700 transition"
+          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-700 transition justify-center mt-6"
           disabled={loading}
         >
           {loading ? 'Loading...' : 'Refresh'}
