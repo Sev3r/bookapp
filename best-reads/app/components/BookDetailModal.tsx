@@ -63,7 +63,7 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
 
     return (
         <div
-            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4 margin-bottom-10"
             onClick={onClose}
         >
             <div
