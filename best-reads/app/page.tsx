@@ -207,13 +207,6 @@ export default function HomePage() {
           <h2 className="text-2xl font-bold mb-4 text-center">
             Recommended
           </h2>
-          <button
-            onClick={loadRecommendations}
-            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-700 transition"
-            disabled={loading}
-          >
-            {loading ? 'Loading...' : 'Refresh'}
-          </button>
         </div>
 
         {loading ? (
@@ -237,6 +230,15 @@ export default function HomePage() {
             ))}
           </div>
         )}
+
+        <button
+          onClick={loadRecommendations}
+          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-700 transition"
+          disabled={loading}
+        >
+          {loading ? 'Loading...' : 'Refresh'}
+        </button>
+
       </div>
     </div>
   );
