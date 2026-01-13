@@ -230,15 +230,15 @@ export default function HomePage() {
             ))}
           </div>
         )}
-
-        <button
-          onClick={loadRecommendations}
-          className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-700 transition mt-6 justifyself-center"
-          disabled={loading}
-        >
-          {loading ? 'Loading...' : 'Refresh'}
-        </button>
-
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={loadRecommendations}
+            className="px-4 py-2 bg-green-800 text-white rounded hover:bg-green-700 transition"
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Refresh'}
+          </button>
+        </div>
       </div>
     </div>
   );
