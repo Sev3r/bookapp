@@ -61,7 +61,7 @@ export default function HomePage() {
 
     // Filter duplicaten en boeken die je al hebt
     const uniqueBooks = recommendedBooks.filter((book, index, self) => {
-      const isDuplicate = self.findIndex(b => b.id === book.id || b.title === book.title) !== index;
+      const isDuplicate = self.findIndex(b => b.id === book.id || b.title.toLowerCase() === book.title.toLowerCase()) !== index;
       const existingIds = new Set([
         ...haveReadBooks.map(b => b.id),
         ...toReadBooks.map(b => b.id)
