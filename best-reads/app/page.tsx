@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { Book } from '@/app/types/book';
 import { BookStorage } from '@/app/services/bookStorage';
 import { GoogleBooksAPI } from '@/app/services/googleBooksAPI';
+import BookCard from '@/app/components/BookCard';
 
 
 export default function HomePage() {
+  const [books, setBooks] = useState<Book[]>([]);
   const [recommendations, setRecommendations] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({ toRead: 0, haveRead: 0, total: 0 });
@@ -53,14 +55,14 @@ export default function HomePage() {
     // Zoek op favoriete categorie
     if (categories.size > 0) {
       const mainCategory = Array.from(categories)[0];
-      const categoryBooks = await booksAPI.searchBooks(`subject:${mainCategory}`, 6);
+      const categoryBooks = await booksAPI.searchBooks(`subject:${mainCategory}`, 10);
       recommendedBooks.push(...categoryBooks);
     }
 
     // Zoek op favoriete auteur
     if (authors.size > 0) {
       const mainAuthor = Array.from(authors)[0];
-      const authorBooks = await booksAPI.searchBooks(`inauthor:${mainAuthor}`, 6);
+      const authorBooks = await booksAPI.searchBooks(`inauthor:${mainAuthor}`, 10);
       recommendedBooks.push(...authorBooks);
     }
 
@@ -71,7 +73,7 @@ export default function HomePage() {
       return !isDuplicate && !alreadyHave;
     });
 
-    setRecommendations(uniqueBooks.slice(0, 12));
+    setRecommendations(uniqueBooks.slice(0, 20));
     setLoading(false);
   };
 
@@ -121,51 +123,9 @@ export default function HomePage() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="books-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {recommendations.map(book => (
-              <div key={book.id} className="group">
-                <div className="border rounded-lg overflow-hidden shadow hover:shadow-xl transition-all duration-300 bg-amber-100">
-                  {book.thumbnail ? (
-                    <img
-                      src={book.thumbnail}
-                      alt={book.title}
-                      className="w-full h-48 object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-400">No cover</span>
-                    </div>
-                  )}
-
-                  <div className="p-3">
-                    <h3 className="font-semibold text-sm mb-1 line-clamp-2 h-10">
-                      {book.title}
-                    </h3>
-                    <p className="text-xs text-gray-600 mb-2 line-clamp-1">
-                      {book.authors.join(', ')}
-                    </p>
-
-                    {book.averageRating > 0 && (
-                      <div className="flex items-center gap-1 mb-2">
-                        <span className="text-yellow-500">⭐</span>
-                        <span className="text-xs font-medium">
-                          {book.averageRating.toFixed(1)}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          ({book.ratingsCount})
-                        </span>
-                      </div>
-                    )}
-
-                    <button
-                      onClick={() => handleAddToRead(book)}
-                      className="w-full mt-2 px-3 py-2 bg-green-800 text-white text-sm rounded hover:bg-green-700 transition"
-                    >
-                      + To Read
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <BookCard key={book.id} book={book} />
             ))}
           </div>
         )}

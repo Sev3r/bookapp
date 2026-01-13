@@ -27,6 +27,7 @@ export default function HaveReadPage() {
     };
 
     if (loading) return <p>Loading...</p>;
+
     return (
         <div className="p-4 min-h-screen bg-emerald-700">
             <h1 className="text-2xl font-bold mb-4 text-center">Have Read</h1>
