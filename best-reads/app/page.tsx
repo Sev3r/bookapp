@@ -8,23 +8,15 @@ import BookCard from '@/app/components/BookCard';
 
 
 export default function HomePage() {
-  const [books, setBooks] = useState<Book[]>([]);
   const [recommendations, setRecommendations] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ toRead: 0, haveRead: 0, total: 0 });
 
   const storage = new BookStorage();
   const booksAPI = new GoogleBooksAPI();
 
   useEffect(() => {
     loadRecommendations();
-    loadStats();
   }, []);
-
-  const loadStats = () => {
-    const bookStats = storage.getTotalBooks();
-    setStats(bookStats);
-  };
 
   const loadRecommendations = async () => {
     setLoading(true);
@@ -77,18 +69,7 @@ export default function HomePage() {
     setLoading(false);
   };
 
-  const handleAddToRead = (book: Book) => {
-    if (storage.isBookInToRead(book.id)) {
-      alert('This book is already in your To Read list!');
-      return;
-    }
 
-    storage.addToReadBook(book);
-    alert(`${book.title} Add to 'To Read'!`);
-
-    // Refresh recommendations (filter toegevoegd boek eruit)
-    setRecommendations(prev => prev.filter(b => b.id !== book.id));
-  };
 
   return (
     <div className="min-h-screen p-6 bg-emerald-700">
@@ -97,7 +78,7 @@ export default function HomePage() {
       <div className="rounded-lg shadow-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold mb-4 text-center">
-            {stats.haveRead > 0 ? 'Recommended' : 'Populair books'}
+            Recommended
           </h2>
           <button
             onClick={loadRecommendations}
@@ -119,7 +100,7 @@ export default function HomePage() {
               No recommendations available
             </p>
             <p className="text-gray-500 text-sm">
-              Add some books to your To Read list in order to get recommendations!
+              Add some books to your Have Read list in order to get recommendations!
             </p>
           </div>
         ) : (
