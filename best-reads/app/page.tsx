@@ -10,6 +10,7 @@ import BookCard from '@/app/components/BookCard';
 export default function HomePage() {
   const [recommendations, setRecommendations] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
+  const [toReadBooks, setToReadBooks] = useState<Book[]>([]);
 
   const storage = new BookStorage();
   const booksAPI = new GoogleBooksAPI();
@@ -61,11 +62,20 @@ export default function HomePage() {
     // Filter duplicaten en boeken die je al hebt
     const uniqueBooks = recommendedBooks.filter((book, index, self) => {
       const isDuplicate = self.findIndex(b => b.id === book.id || b.title === book.title) !== index;
-      const alreadyHave = storage.isBookInHaveRead(book.id) || storage.isBookInToRead(book.id);
+      const existingIds = new Set([
+        ...haveReadBooks.map(b => b.id),
+        ...toReadBooks.map(b => b.id)
+      ]);
+      const existingTitles = new Set([
+        ...haveReadBooks.map(b => b.title.toLowerCase()),
+        ...toReadBooks.map(b => b.title.toLowerCase())
+      ]);
+
+      const alreadyHave = existingIds.has(book.id) || existingTitles.has(book.title.toLowerCase());
       return !isDuplicate && !alreadyHave;
     });
 
-    setRecommendations(uniqueBooks.slice(10, 30));
+    setRecommendations(uniqueBooks.slice(0, 30));
     setLoading(false);
   };
 
