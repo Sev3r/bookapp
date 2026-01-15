@@ -9,9 +9,16 @@ interface BookDetailModalProps {
     isOpen: boolean;
     onClose: () => void;
     onBookAdded?: () => void;
+    context?: 'toread' | 'haveread' | 'search'; // Nieuwe prop voor context
 }
 
-export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: BookDetailModalProps) {
+export default function BookDetailModal({
+    book,
+    isOpen,
+    onClose,
+    onBookAdded,
+    context = 'search'
+}: BookDetailModalProps) {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
@@ -27,6 +34,18 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
 
         storage.addToReadBook(book);
         setSuccessMessage('✓ Added to To Read!');
+        setShowSuccessMessage(true);
+
+        setTimeout(() => {
+            setShowSuccessMessage(false);
+            onClose();
+            onBookAdded?.();
+        }, 1500);
+    };
+
+    const handleRemoveFromToRead = () => {
+        storage.removeToReadBook(book.id);
+        setSuccessMessage('✓ Removed from To Read!');
         setShowSuccessMessage(true);
 
         setTimeout(() => {
@@ -58,12 +77,78 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
         }, 1500);
     };
 
+    const handleRemoveFromHaveRead = () => {
+        storage.removeHaveReadBook(book.id);
+        setSuccessMessage('✓ Removed from Have Read!');
+        setShowSuccessMessage(true);
+
+        setTimeout(() => {
+            setShowSuccessMessage(false);
+            onClose();
+            onBookAdded?.();
+        }, 1500);
+    };
+
     const isInToRead = storage.isBookInToRead(book.id);
     const isInHaveRead = storage.isBookInHaveRead(book.id);
 
+    // Bepaal welke knop te tonen voor To Read
+    const renderToReadButton = () => {
+        if (context === 'toread' && isInToRead) {
+            return (
+                <button
+                    onClick={handleRemoveFromToRead}
+                    className="flex-1 py-3 rounded-lg font-semibold transition bg-red-600 text-white hover:bg-red-700"
+                >
+                    Remove from To Read
+                </button>
+            );
+        }
+
+        return (
+            <button
+                onClick={handleAddToRead}
+                disabled={isInToRead}
+                className={`flex-1 py-3 rounded-lg font-semibold transition ${isInToRead
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-green-800 text-white hover:bg-green-700'
+                    }`}
+            >
+                {isInToRead ? '✓ Already in To Read' : '+ To Read'}
+            </button>
+        );
+    };
+
+    // Bepaal welke knop te tonen voor Have Read
+    const renderHaveReadButton = () => {
+        if (context === 'haveread' && isInHaveRead) {
+            return (
+                <button
+                    onClick={handleRemoveFromHaveRead}
+                    className="flex-1 py-3 rounded-lg font-semibold transition bg-red-600 text-white hover:bg-red-700"
+                >
+                    Remove from Have Read
+                </button>
+            );
+        }
+
+        return (
+            <button
+                onClick={handleAddHaveRead}
+                disabled={isInHaveRead}
+                className={`flex-1 py-3 rounded-lg font-semibold transition ${isInHaveRead
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-green-800 text-white hover:bg-green-700'
+                    }`}
+            >
+                {isInHaveRead ? '✓ Already in Have Read' : '+ Have Read'}
+            </button>
+        );
+    };
+
     return (
         <div
-            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
             onClick={onClose}
         >
             <div
@@ -183,27 +268,8 @@ export default function BookDetailModal({ book, isOpen, onClose, onBookAdded }: 
 
                     {/* Action buttons */}
                     <div className="mt-6 flex gap-3">
-                        <button
-                            onClick={handleAddToRead}
-                            disabled={isInToRead}
-                            className={`flex-1 py-3 rounded-lg font-semibold transition ${isInToRead
-                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-green-800 text-white hover:bg-green-700'
-                                }`}
-                        >
-                            {isInToRead ? '✓ Already in To Read' : '+ To Read'}
-                        </button>
-
-                        <button
-                            onClick={handleAddHaveRead}
-                            disabled={isInHaveRead}
-                            className={`flex-1 py-3 rounded-lg font-semibold transition ${isInHaveRead
-                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-green-800 text-white hover:bg-green-700'
-                                }`}
-                        >
-                            {isInHaveRead ? '✓ Already in Have Read' : '+ Have Read'}
-                        </button>
+                        {renderToReadButton()}
+                        {renderHaveReadButton()}
                     </div>
                 </div>
             </div>
