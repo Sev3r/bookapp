@@ -88,112 +88,158 @@ export default function HomePage() {
   };
 
   const loadRecommendations = async () => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    // Haal alle boeken op
-    const haveReadBooks = storage.getHaveReadBooks();
-    const toReadBooks = storage.getToReadBooks();
-    const allExistingBooks = [...haveReadBooks, ...toReadBooks];
+      // Haal alle boeken op
+      const haveReadBooks = storage.getHaveReadBooks();
+      const toReadBooks = storage.getToReadBooks();
+      const allExistingBooks = [...haveReadBooks, ...toReadBooks];
 
-    // Als er geen gelezen boeken zijn, toon populaire Engelse boeken
-    if (haveReadBooks.length === 0) {
-      const popular = await booksAPI.searchBooks('bestseller fiction', 12, 'en');
-      setRecommendations(popular);
+      console.log('📚 Existing books:', {
+        haveRead: haveReadBooks.length,
+        toRead: toReadBooks.length,
+        total: allExistingBooks.length
+      });
+
+      // Als er geen gelezen boeken zijn, toon populaire Engelse boeken
+      if (haveReadBooks.length === 0) {
+        console.log('🆕 No books read yet, showing popular books...');
+        const popular = await booksAPI.searchBooks('bestseller fiction', 12, 'en');
+        console.log('✅ Found popular books:', popular.length);
+        setRecommendations(popular);
+        setLoading(false);
+        return;
+      }
+
+      // STAP 1: Analyseer leesgeschiedenis - tel frequenties
+      const categoryCount = new Map<string, number>();
+      const authorCount = new Map<string, number>();
+
+      haveReadBooks.forEach(book => {
+        // Tel categorieën
+        book.categories.forEach(cat => {
+          const cleanCat = cat.trim();
+          categoryCount.set(cleanCat, (categoryCount.get(cleanCat) || 0) + 1);
+        });
+
+        // Tel auteurs
+        book.authors.forEach(author => {
+          const cleanAuthor = author.trim();
+          authorCount.set(cleanAuthor, (authorCount.get(cleanAuthor) || 0) + 1);
+        });
+      });
+
+      // Selecteer top categorieën en auteurs
+      const topCategories = Array.from(categoryCount.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([cat]) => cat);
+
+      const topAuthors = Array.from(authorCount.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 2)
+        .map(([author]) => author);
+
+      console.log('🎯 Top preferences:', {
+        categories: topCategories,
+        authors: topAuthors
+      });
+
+      // Zoek recommendations
+      const recommendedBooks: Book[] = [];
+
+      // Zoek op basis van favoriete categorieën
+      for (const category of topCategories) {
+        try {
+          console.log(`🔍 Searching category: ${category}`);
+          const categoryBooks = await booksAPI.searchBooks(
+            `subject:${category}`,
+            10,
+            'en'
+          );
+          console.log(`  ✅ Found ${categoryBooks.length} books`);
+          recommendedBooks.push(...categoryBooks);
+        } catch (error) {
+          console.error(`  ❌ Error searching category ${category}:`, error);
+        }
+      }
+
+      // Zoek op basis van favoriete auteurs
+      for (const author of topAuthors) {
+        try {
+          console.log(`🔍 Searching author: ${author}`);
+          const authorBooks = await booksAPI.searchBooks(
+            `inauthor:"${author}"`,
+            8,
+            'en'
+          );
+          console.log(`  ✅ Found ${authorBooks.length} books`);
+          recommendedBooks.push(...authorBooks);
+        } catch (error) {
+          console.error(`  ❌ Error searching author ${author}:`, error);
+        }
+      }
+
+      console.log('📖 Total recommendations before filtering:', recommendedBooks.length);
+
+      // Als we te weinig boeken hebben, voeg algemene bestsellers toe
+      if (recommendedBooks.length < 15) {
+        console.log('⚠️ Too few recommendations, adding bestsellers...');
+        try {
+          const fallbackBooks = await booksAPI.searchBooks('bestseller fiction', 20, 'en');
+          recommendedBooks.push(...fallbackBooks);
+          console.log(`  ✅ Added ${fallbackBooks.length} bestsellers`);
+        } catch (error) {
+          console.error('  ❌ Error fetching bestsellers:', error);
+        }
+      }
+
+      // Filter duplicaten en boeken die je al hebt
+      const uniqueBooks = recommendedBooks.filter((book, index, self) => {
+        // Check binnen de recommendations lijst
+        const firstOccurrence = self.findIndex(b => {
+          if (b.id === book.id) return true;
+          if (b.isbn && book.isbn && b.isbn === book.isbn) return true;
+
+          const sameTitle = b.title.toLowerCase().trim() === book.title.toLowerCase().trim();
+          const sameAuthor = b.authors[0]?.toLowerCase() === book.authors[0]?.toLowerCase();
+
+          return sameTitle && sameAuthor;
+        });
+
+        if (firstOccurrence !== index) return false;
+
+        // Check of het boek al in je collectie zit
+        const alreadyOwned = isDuplicateBook(book, allExistingBooks);
+        return !alreadyOwned;
+      });
+
+      console.log('✨ Unique books after filtering:', uniqueBooks.length);
+
+      // Shuffle en limiteer
+      const shuffled = uniqueBooks
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 12);
+
+      console.log('🎲 Final recommendations:', shuffled.length);
+
+      setRecommendations(shuffled);
       setLoading(false);
-      return;
-    }
 
-    // STAP 1: Analyseer leesgeschiedenis - tel frequenties
-    const categoryCount = new Map<string, number>();
-    const authorCount = new Map<string, number>();
+    } catch (error) {
+      console.error('❌ Critical error in loadRecommendations:', error);
+      setLoading(false);
 
-    haveReadBooks.forEach(book => {
-      // Tel categorieën
-      book.categories.forEach(cat => {
-        const cleanCat = cat.trim();
-        categoryCount.set(cleanCat, (categoryCount.get(cleanCat) || 0) + 1);
-      });
-
-      // Tel auteurs
-      book.authors.forEach(author => {
-        const cleanAuthor = author.trim();
-        authorCount.set(cleanAuthor, (authorCount.get(cleanAuthor) || 0) + 1);
-      });
-    });
-
-    // Selecteer top categorieën en auteurs
-    const topCategories = Array.from(categoryCount.entries())
-      .sort((a, b) => b[1] - a[1]) // Sorteer op frequentie
-      .slice(0, 3) // Neem top 3
-      .map(([cat]) => cat);
-
-    const topAuthors = Array.from(authorCount.entries())
-      .sort((a, b) => b[1] - a[1]) // Sorteer op frequentie
-      .slice(0, 2) // Neem top 2
-      .map(([author]) => author);
-
-    // Zoek recommendations op basis van analyse
-    const recommendedBooks: Book[] = [];
-
-    // Zoek op basis van favoriete categorieën (alleen Engels!)
-    for (const category of topCategories) {
+      // Fallback: toon in ieder geval wat populaire boeken
       try {
-        const categoryBooks = await booksAPI.searchBooks(
-          `subject:${category}`,
-          8,
-          'en'
-        );
-        recommendedBooks.push(...categoryBooks);
-      } catch (error) {
-        console.error(`Error while searching category ${category}:`, error);
+        const fallback = await booksAPI.searchBooks('popular books', 12, 'en');
+        setRecommendations(fallback);
+      } catch (fallbackError) {
+        console.error('❌ Even fallback failed:', fallbackError);
+        setRecommendations([]);
       }
     }
-
-    // Zoek op basis van favoriete auteurs 
-    for (const author of topAuthors) {
-      try {
-        const authorBooks = await booksAPI.searchBooks(
-          `inauthor:"${author}"`,
-          6,
-          'en'
-        );
-        recommendedBooks.push(...authorBooks);
-      } catch (error) {
-        console.error(`Error while searching author ${author}:`, error);
-      }
-    }
-
-    // STAP 4: Filter duplicaten en boeken die je al hebt
-    const uniqueBooks = recommendedBooks.filter((book, index, self) => {
-      const firstOccurrence = self.findIndex(b => {
-        // Simpele check binnen dezelfde lijst
-        if (b.id === book.id) return true;
-        if (b.isbn && book.isbn && b.isbn === book.isbn) return true;
-
-        const sameTitle = b.title.toLowerCase().trim() ===
-          book.title.toLowerCase().trim();
-        const sameAuthor = b.authors[0]?.toLowerCase() ===
-          book.authors[0]?.toLowerCase();
-
-        return sameTitle && sameAuthor;
-      });
-
-      // Als dit niet de eerste keer is dat we dit boek zien, skip het
-      if (firstOccurrence !== index) return false;
-
-      // Check of het boek al in je collectie zit
-      const alreadyOwned = isDuplicateBook(book, allExistingBooks);
-
-      return !alreadyOwned;
-    });
-
-    // STAP 5: Shuffle voor variatie en limiteer
-    const shuffled = uniqueBooks
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 12);
-
-    setRecommendations(shuffled);
-    setLoading(false);
   };
 
 
