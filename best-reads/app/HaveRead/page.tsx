@@ -37,7 +37,12 @@ export default function HaveReadPage() {
             ) : (
                 <div className="books-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {books.map(book => (
-                        <BookCard key={book.id} book={book} />
+                        <BookCard
+                            key={book.id}
+                            book={book}
+                            context="haveread"
+                            onBookUpdated={loadBooks}
+                        />
                     ))}
                 </div>
             )}

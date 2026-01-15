@@ -8,9 +8,11 @@ import BookDetailModal from './BookDetailModal';
 interface BookCardProps {
     book: Book;
     onAdd?: (book: Book) => void;
+    context?: 'toread' | 'haveread' | 'search';
+    onBookUpdated?: () => void;
 }
 
-export default function BookCard({ book, onAdd }: BookCardProps) {
+export default function BookCard({ book, onAdd, context = 'search', onBookUpdated }: BookCardProps) {
     const [showModal, setShowModal] = React.useState(false);
 
     const handleOpenModal = () => {
@@ -40,6 +42,8 @@ export default function BookCard({ book, onAdd }: BookCardProps) {
                 book={book}
                 isOpen={showModal}
                 onClose={handleCloseModal}
+                context={context}
+                onBookAdded={onBookUpdated}
             />
 
         </>

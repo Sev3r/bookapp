@@ -26,7 +26,7 @@ export default function ToReadPage() {
         loadBooks();
     };
 
-    if (loading) return <p>Laden...</p>;
+    if (loading) return <p>Loading...</p>;
 
     return (
         <div className="p-4 min-h-screen bg-emerald-700">
@@ -37,7 +37,12 @@ export default function ToReadPage() {
             ) : (
                 <div className="books-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {books.map(book => (
-                        <BookCard key={book.id} book={book} />
+                        <BookCard
+                            key={book.id}
+                            book={book}
+                            context="toread"
+                            onBookUpdated={loadBooks}
+                        />
                     ))}
                 </div>
             )}
