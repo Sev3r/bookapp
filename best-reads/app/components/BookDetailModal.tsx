@@ -94,6 +94,7 @@ export default function BookDetailModal({
 
     // Bepaal welke knop te tonen voor To Read
     const renderToReadButton = () => {
+        // Op ToRead pagina: toon Remove knop als boek in lijst staat
         if (context === 'toread' && isInToRead) {
             return (
                 <button
@@ -105,6 +106,28 @@ export default function BookDetailModal({
             );
         }
 
+        // Op HaveRead pagina: toon Add knop (om terug te verplaatsen)
+        if (context === 'haveread' && isInHaveRead) {
+            return (
+                <button
+                    onClick={() => {
+                        storage.moveToToRead(book.id);
+                        setSuccessMessage('✓ Moved to To Read!');
+                        setShowSuccessMessage(true);
+                        setTimeout(() => {
+                            setShowSuccessMessage(false);
+                            onClose();
+                            onBookAdded?.();
+                        }, 1500);
+                    }}
+                    className="flex-1 py-3 rounded-lg font-semibold transition bg-green-800 text-white hover:bg-green-700"
+                >
+                    Move to To Read
+                </button>
+            );
+        }
+
+        // Default gedrag (search/recommendations pagina)
         return (
             <button
                 onClick={handleAddToRead}
@@ -121,6 +144,7 @@ export default function BookDetailModal({
 
     // Bepaal welke knop te tonen voor Have Read
     const renderHaveReadButton = () => {
+        // Op HaveRead pagina: toon Remove knop als boek in lijst staat
         if (context === 'haveread' && isInHaveRead) {
             return (
                 <button
@@ -132,6 +156,28 @@ export default function BookDetailModal({
             );
         }
 
+        // Op ToRead pagina: toon Move knop (om door te schuiven)
+        if (context === 'toread' && isInToRead) {
+            return (
+                <button
+                    onClick={() => {
+                        storage.moveToHaveRead(book.id);
+                        setSuccessMessage('✓ Moved to Have Read!');
+                        setShowSuccessMessage(true);
+                        setTimeout(() => {
+                            setShowSuccessMessage(false);
+                            onClose();
+                            onBookAdded?.();
+                        }, 1500);
+                    }}
+                    className="flex-1 py-3 rounded-lg font-semibold transition bg-green-800 text-white hover:bg-green-700"
+                >
+                    Move to Have Read
+                </button>
+            );
+        }
+
+        // Default gedrag (search/recommendations pagina)
         return (
             <button
                 onClick={handleAddHaveRead}
